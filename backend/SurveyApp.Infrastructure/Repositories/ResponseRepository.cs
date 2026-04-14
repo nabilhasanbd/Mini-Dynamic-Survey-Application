@@ -12,6 +12,7 @@ namespace SurveyApp.Infrastructure.Repositories
         public async Task<IEnumerable<Response>> GetBySurveyIdAsync(Guid surveyId)
             => await _dbSet
                 .Include(r => r.Answers)
+                    .ThenInclude(a => a.Question)
                 .Where(r => r.SurveyId == surveyId)
                 .OrderByDescending(r => r.SubmittedAt)
                 .ToListAsync();

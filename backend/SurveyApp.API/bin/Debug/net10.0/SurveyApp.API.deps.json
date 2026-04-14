@@ -561,8 +561,10 @@
       },
       "SurveyApp.Application/1.0.0": {
         "dependencies": {
+          "BCrypt.Net-Next": "4.0.3",
           "FluentValidation.AspNetCore": "11.3.0",
-          "SurveyApp.Domain": "1.0.0"
+          "SurveyApp.Domain": "1.0.0",
+          "System.IdentityModel.Tokens.Jwt": "8.0.0"
         },
         "runtime": {
           "SurveyApp.Application.dll": {

@@ -34,5 +34,14 @@ namespace SurveyApp.Infrastructure.Repositories
                     question.OrderIndex = i;
             }
         }
+
+        public async Task ReplaceOptionsAsync(Guid questionId, List<QuestionOption> newOptions)
+        {
+            var old = await _context.QuestionOptions
+                .Where(o => o.QuestionId == questionId)
+                .ToListAsync();
+            _context.QuestionOptions.RemoveRange(old);
+            await _context.QuestionOptions.AddRangeAsync(newOptions);
+        }
     }
 }

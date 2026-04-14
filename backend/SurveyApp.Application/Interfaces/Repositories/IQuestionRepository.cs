@@ -7,5 +7,6 @@ namespace SurveyApp.Application.Interfaces.Repositories
         Task<IEnumerable<Question>> GetBySurveyIdAsync(Guid surveyId);
         Task<Question?> GetWithOptionsAsync(Guid id);
         Task ReorderAsync(Guid surveyId, List<Guid> orderedIds);
+        Task ReplaceOptionsAsync(Guid questionId, List<QuestionOption> newOptions);
     }
 }

@@ -246,3 +246,4 @@ D:\personal-project\Mini-Dynamic-Survey-Application\backend\SurveyApp.API\obj\De
 D:\personal-project\Mini-Dynamic-Survey-Application\backend\SurveyApp.API\obj\Debug\net10.0\SurveyApp.API.pdb
 D:\personal-project\Mini-Dynamic-Survey-Application\backend\SurveyApp.API\obj\Debug\net10.0\SurveyApp.API.genruntimeconfig.cache
 D:\personal-project\Mini-Dynamic-Survey-Application\backend\SurveyApp.API\obj\Debug\net10.0\ref\SurveyApp.API.dll
+D:\personal-project\Mini-Dynamic-Survey-Application\backend\SurveyApp.API\obj\Debug\net10.0\SurveyApp.API.sourcelink.json

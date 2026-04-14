@@ -28,3 +28,4 @@ D:\personal-project\Mini-Dynamic-Survey-Application\backend\SurveyApp.Applicatio
 D:\personal-project\Mini-Dynamic-Survey-Application\backend\SurveyApp.Application\obj\Debug\net10.0\refint\SurveyApp.Application.dll
 D:\personal-project\Mini-Dynamic-Survey-Application\backend\SurveyApp.Application\obj\Debug\net10.0\SurveyApp.Application.pdb
 D:\personal-project\Mini-Dynamic-Survey-Application\backend\SurveyApp.Application\obj\Debug\net10.0\ref\SurveyApp.Application.dll
+D:\personal-project\Mini-Dynamic-Survey-Application\backend\SurveyApp.Application\obj\Debug\net10.0\SurveyApp.Application.sourcelink.json
