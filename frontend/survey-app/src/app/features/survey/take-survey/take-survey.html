@@ -1,0 +1,97 @@
+<div class="survey-page">
+  @if (loading()) {
+    <app-spinner />
+  } @else if (error()) {
+    <div class="error-state">
+      <div class="icon">⚠️</div>
+      <h2>{{ error() }}</h2>
+    </div>
+  } @else if (submitted()) {
+    <div class="success-state">
+      <div class="icon">✅</div>
+      <h2>Thank you!</h2>
+      <p>Your response has been recorded successfully.</p>
+    </div>
+  } @else if (survey()) {
+    <div class="survey-container">
+      <div class="survey-header">
+        <h1>{{ survey()!.title }}</h1>
+        @if (survey()!.description) {
+          <p class="description">{{ survey()!.description }}</p>
+        }
+      </div>
+
+      @if (error()) { <div class="alert alert-error">{{ error() }}</div> }
+
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        @for (q of survey()!.questions; track q.id; let i = $index) {
+          <div class="question-block" [class.invalid]="form.get(q.id)?.touched && form.get(q.id)?.invalid">
+            <div class="q-label">
+              <span class="q-num">{{ i + 1 }}</span>
+              <span class="q-text">{{ q.questionText }}</span>
+              @if (q.isRequired) { <span class="required">*</span> }
+            </div>
+
+            @switch (q.questionType) {
+              @case ('ShortText') {
+                <input type="text" [formControlName]="q.id" placeholder="Your answer..." />
+              }
+              @case ('LongText') {
+                <textarea [formControlName]="q.id" rows="4" placeholder="Your answer..."></textarea>
+              }
+              @case ('MultipleChoice') {
+                <div class="radio-group">
+                  @for (opt of q.options; track opt.id) {
+                    <label class="radio-option">
+                      <input type="radio" [formControlName]="q.id" [value]="opt.id" />
+                      <span>{{ opt.optionText }}</span>
+                    </label>
+                  }
+                </div>
+              }
+              @case ('Checkboxes') {
+                <div class="checkbox-group" [formGroupName]="q.id">
+                  @for (opt of q.options; track opt.id) {
+                    <label class="checkbox-option">
+                      <input type="checkbox" [formControlName]="opt.id" />
+                      <span>{{ opt.optionText }}</span>
+                    </label>
+                  }
+                </div>
+              }
+              @case ('Dropdown') {
+                <select [formControlName]="q.id">
+                  <option value="">-- Select an option --</option>
+                  @for (opt of q.options; track opt.id) {
+                    <option [value]="opt.id">{{ opt.optionText }}</option>
+                  }
+                </select>
+              }
+              @case ('Rating') {
+                <div class="rating-group">
+                  @for (star of ratings; track star) {
+                    <button type="button" class="star" [class.active]="getRating(q.id) >= star"
+                            (click)="setRating(q.id, star)">★</button>
+                  }
+                  @if (getRating(q.id) > 0) {
+                    <span class="rating-label">{{ getRating(q.id) }} / 5</span>
+                  }
+                </div>
+              }
+            }
+
+            @if (form.get(q.id)?.touched && form.get(q.id)?.hasError('required')) {
+              <span class="field-error">This question is required.</span>
+            }
+          </div>
+        }
+
+        <div class="submit-row">
+          <button type="submit" class="btn btn-primary" [disabled]="submitting()">
+            @if (submitting()) { Submitting… } @else { Submit Response }
+          </button>
+        </div>
+      </form>
+    </div>
+  }
+</div>

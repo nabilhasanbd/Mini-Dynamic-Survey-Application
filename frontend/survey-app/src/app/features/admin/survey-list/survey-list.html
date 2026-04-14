@@ -1,0 +1,61 @@
+<app-navbar />
+
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1>My Surveys</h1>
+      <p class="text-muted">{{ surveys().length }} survey{{ surveys().length !== 1 ? 's' : '' }}</p>
+    </div>
+    <a routerLink="/admin/surveys/new" class="btn btn-primary">+ New Survey</a>
+  </div>
+
+  @if (loading()) {
+    <app-spinner />
+  } @else if (error()) {
+    <div class="alert alert-error">{{ error() }}</div>
+  } @else if (surveys().length === 0) {
+    <div class="empty-state">
+      <div class="empty-icon">📝</div>
+      <h2>No surveys yet</h2>
+      <p>Create your first survey to start collecting responses.</p>
+      <a routerLink="/admin/surveys/new" class="btn btn-primary">Create Survey</a>
+    </div>
+  } @else {
+    <div class="survey-grid">
+      @for (survey of surveys(); track survey.id) {
+        <div class="survey-card">
+          <div class="card-header">
+            <span [class]="survey.isPublished ? 'badge badge-success' : 'badge badge-secondary'">
+              {{ survey.isPublished ? 'Published' : 'Draft' }}
+            </span>
+            @if (survey.expiryDate) {
+              <span class="expiry">Expires {{ survey.expiryDate | date:'mediumDate' }}</span>
+            }
+          </div>
+
+          <h2 class="card-title">{{ survey.title }}</h2>
+
+          @if (survey.description) {
+            <p class="card-desc">{{ survey.description }}</p>
+          }
+
+          <div class="card-meta">
+            <span>🔗 /s/{{ survey.slug }}</span>
+            <span>📅 {{ survey.createdAt | date:'mediumDate' }}</span>
+          </div>
+
+          <div class="card-actions">
+            <a [routerLink]="['/admin/surveys', survey.id]" class="btn btn-secondary btn-sm">Edit</a>
+            <button class="btn btn-sm" [class]="survey.isPublished ? 'btn-secondary' : 'btn-success'"
+                    (click)="togglePublish(survey)">
+              {{ survey.isPublished ? 'Unpublish' : 'Publish' }}
+            </button>
+            <a [routerLink]="['/admin/analytics', survey.id]" class="btn btn-secondary btn-sm">Analytics</a>
+            <button class="btn btn-secondary btn-sm" (click)="copyLink(survey.slug)" title="Copy public link">🔗</button>
+            <button class="btn btn-danger btn-sm" (click)="delete(survey.id)">Delete</button>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

@@ -1,0 +1,68 @@
+<app-navbar />
+
+<div class="page">
+  @if (loading()) {
+    <app-spinner />
+  } @else if (error()) {
+    <div class="alert alert-error">{{ error() }}</div>
+  } @else if (data()) {
+    <div class="page-header">
+      <div>
+        <a routerLink="/admin/surveys" class="back-link">← My Surveys</a>
+        <h1>{{ data()!.title }}</h1>
+        <p class="total-responses">{{ data()!.totalResponses }} total response{{ data()!.totalResponses !== 1 ? 's' : '' }}</p>
+      </div>
+      <button class="btn btn-secondary" (click)="exportCsv()" [disabled]="exporting()">
+        @if (exporting()) { Exporting… } @else { ⬇ Export CSV }
+      </button>
+    </div>
+
+    @if (data()!.questions.length === 0) {
+      <div class="card" style="text-align:center;padding:3rem;">
+        <p style="color:var(--text-muted)">No questions in this survey yet.</p>
+      </div>
+    }
+
+    <div class="analytics-list">
+      @for (q of data()!.questions; track q.questionId; let i = $index) {
+        <div class="q-card">
+          <div class="q-card-header">
+            <span class="q-num">Q{{ i + 1 }}</span>
+            <span class="q-type">{{ q.questionType }}</span>
+            <span class="q-answers">{{ q.totalAnswers }} answer{{ q.totalAnswers !== 1 ? 's' : '' }}</span>
+          </div>
+          <h3 class="q-text">{{ q.questionText }}</h3>
+
+          @if (isRating(q) && q.averageRating != null) {
+            <div class="rating-summary">
+              <div class="stars">
+                @for (filled of stars(q.averageRating!); track $index) {
+                  <span [class]="filled ? 'star filled' : 'star'">★</span>
+                }
+              </div>
+              <span class="avg">{{ q.averageRating!.toFixed(1) }} / 5 average</span>
+            </div>
+          }
+
+          @if (hasOptions(q) && q.optionCounts.length > 0) {
+            <div class="bar-chart">
+              @for (opt of q.optionCounts; track opt.optionId) {
+                <div class="bar-row">
+                  <span class="bar-label">{{ opt.optionText }}</span>
+                  <div class="bar-track">
+                    <div class="bar-fill" [style.width.%]="opt.percentage"></div>
+                  </div>
+                  <span class="bar-stat">{{ opt.count }} <small>({{ opt.percentage.toFixed(0) }}%)</small></span>
+                </div>
+              }
+            </div>
+          }
+
+          @if (!hasOptions(q) && !isRating(q)) {
+            <p class="text-hint">Text responses not shown in summary. Export CSV to view all.</p>
+          }
+        </div>
+      }
+    </div>
+  }
+</div>
