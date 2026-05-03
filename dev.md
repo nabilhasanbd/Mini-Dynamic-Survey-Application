@@ -71,10 +71,18 @@ The entry point of the backend, exposing RESTful endpoints.
 ---
 
 ## Frontend (`/frontend`)
-- **Status**: Not started. The directory is currently empty.
+- **Status**: Initialized and actively being built.
+- **Framework**: Next.js 15 (App Router), React 19, TypeScript.
+- **Architecture**: Clean Architecture structure adapted for frontend.
+  - **`src/domain/`**: Contains core business entities (`Survey.ts`, `Question.ts`) and repository interfaces (`ISurveyRepository`).
+  - **`src/infrastructure/`**: Handles external communications, including `apiClient.ts` for interacting with the .NET Backend.
+  - **`src/presentation/`**: Reusable UI components (e.g., `Button.tsx`).
+  - **`src/app/`**: Next.js pages and routing, acting as the entry points and controllers.
+- **Styling**: Vanilla CSS (`globals.css` and CSS Modules) with a modern, dark-mode, glassmorphism design. No Tailwind CSS is used.
 
 ---
 
 ## Next Steps
-- Implement and set up the Frontend application (React / Angular / Vue / Blazor depending on the stack choice).
-- Integrate the frontend with the backend REST API endpoints.
+- Implement full `ApiSurveyRepository` conforming to `ISurveyRepository`.
+- Create the Survey Builder interface with dynamic question forms.
+- Integrate the frontend API client completely with the .NET Core backend.
