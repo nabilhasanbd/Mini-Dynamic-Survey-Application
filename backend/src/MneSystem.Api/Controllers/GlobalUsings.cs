@@ -1,0 +1,12 @@
+global using System;
+global using System.Collections.Generic;
+global using System.Linq;
+global using System.Threading.Tasks;
+global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.AspNetCore.Identity;
+global using MneSystem.Domain.Entities;
+global using MneSystem.Domain.Enums;
+global using MediatR;
+global using MneSystem.Application.DTOs;
+global using MneSystem.Api.Responses;
+global using MneSystem.Application.Commands;
